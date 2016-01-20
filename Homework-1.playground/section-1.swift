@@ -24,7 +24,15 @@ func generateArray() -> [Int?] {
 // Question 1: Counting nils
 //
 // Write code that counts the number of nil values in array1
+print("*************** Question 1 ***************")
 let array1 = generateArray()
+
+func countNils<T>(arr: [T?]) -> Int {
+  return arr.filter{ $0 == nil }
+            .reduce(0){ (total, _) in total + 1 }
+}
+let numNils = countNils(array1)
+print("array1: \(array1)) \nHas \(numNils) nil values")
 
 
 // Question 2: Mean
@@ -32,7 +40,15 @@ let array1 = generateArray()
 // Write code that calculates the mean value of the non nil elements in array1.
 // You do not necessarily need to write functions. You can start your code
 // directly under the declaration of array2
+print("\n*************** Question 2 ***************")
 let array2 = generateArray()
+
+func getMeanVal(arr:[Int?]) -> Double {
+  let cleaned = arr.filter{ $0 != nil }.map{ $0! }
+  return Double(cleaned.reduce(0){ $0 + $1 }) / Double(cleaned.count)
+}
+let meanVal = getMeanVal(array2)
+print("array2: \(array2) \nHas mean value \(meanVal)")
 
 
 // Question 3: New Array
@@ -40,7 +56,14 @@ let array2 = generateArray()
 // Write code that creates a new array named nilFree that has the same elements
 // as array3, except without the nil values. The elements in nilFree should be
 // Ints, not Int optionals
+print("\n*************** Question 3 ***************")
 let array3 = generateArray()
+
+func removeNils<T>(arr: [T?]) -> [T] {
+  return arr.filter{ $0 != nil }.map { $0! }
+}
+let nilFree = removeNils(array3)
+print("array3: \(array3) \nWithout nils is \(nilFree)")
 
 
 // Question 4: Sort array
@@ -52,4 +75,33 @@ let array3 = generateArray()
 // is already written in swift. Do not use Swift's sort method.
 //
 // Note that array4 is declared with var, so that it is a mutable array.
+print("\n*************** Question 4 ***************")
 var array4 = generateArray()
+
+func myBubbleSort(arr: [Int?]) -> [Int?] {
+  // translated from ruby...
+  if arr.count <= 1 {
+    return arr
+  }
+  var copy = arr
+  var swapped = true
+  while swapped {
+    swapped = false
+    let r = 0...copy.count-2
+    for i in r {
+      if copy[i] > copy[i+1] {
+        swap(&copy[i], &copy[i+1])
+        swapped = true
+      }
+    }
+  }
+  return copy
+}
+func bubbleSort(inout arr: [Int?]) {
+  arr = myBubbleSort(arr)
+}
+print("UNSORTED     : \(array4))")
+print("SWIFT SORT   : \(array4.sort { $0 < $1 })")
+print("MY TEST SORT : \(myBubbleSort(array4))")
+bubbleSort(&array4)
+print("SORT IN PLACE: \(array4))")
