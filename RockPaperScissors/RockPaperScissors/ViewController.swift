@@ -25,18 +25,15 @@ class ViewController: UIViewController {
     // Dispose of any resources that can be recreated.
   }
 
-  @IBAction func play(sender: AnyObject) {
-    if let sender:UIButton = sender as? UIButton {
-      if sender == rockButton {
-        let storyboard = UIStoryboard(name: "Main", bundle: nil)
-        let evalPlayVC = storyboard.instantiateViewControllerWithIdentifier("evalPlay") as! EvalPlayViewController
-        rpsGame!.userMove = .Rock
-        evalPlayVC.rpsGame = rpsGame
-        self.presentViewController(evalPlayVC, animated: true, completion: { });
-      } else if sender == paperButton {
-        rpsGame!.userMove = .Paper
-        self.performSegueWithIdentifier("showEvalPlay", sender: self)
-      }
+  @IBAction func play(sender: UIButton) {
+    if sender == rockButton {
+      let storyboard = UIStoryboard(name: "Main", bundle: nil)
+      let evalPlayVC = storyboard.instantiateViewControllerWithIdentifier("evalPlay") as! EvalPlayViewController
+      rpsGame!.userMove = .Rock
+      evalPlayVC.rpsGame = rpsGame
+      self.presentViewController(evalPlayVC, animated: true, completion: { });
+    } else if sender == paperButton {
+      self.performSegueWithIdentifier("showEvalPlay", sender: sender)
     }
   }
 
@@ -44,8 +41,12 @@ class ViewController: UIViewController {
   override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
     // Get the new view controller using segue.destinationViewController.
     // Pass the selected object to the new view controller.
-    if let _ = sender as? UIButton {
-      rpsGame!.userMove = .Scissors
+    if let sender = sender as? UIButton {
+      if sender == scissorButton {
+        rpsGame!.userMove = .Scissors
+      } else if sender == paperButton{
+        rpsGame!.userMove = .Paper
+      }
     }
     let evPlayVC = segue.destinationViewController as! EvalPlayViewController
     evPlayVC.rpsGame = rpsGame
