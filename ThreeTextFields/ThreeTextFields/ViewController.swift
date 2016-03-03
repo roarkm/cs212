@@ -42,10 +42,8 @@ class ViewController: UIViewController, UITextFieldDelegate {
   
   func textField(textField: UITextField, shouldChangeCharactersInRange range: NSRange, replacementString string: String) -> Bool {
     
-    if textField == textOne {
-      if textField.text?.characters.count >= 5 {
-        return false
-      }
+    if textField == textOne  && textField.text?.characters.count >= 5 {
+      return false
     }
     else if textField == textTwo {
       var txtNumStr:String = String(textField.text!.characters.dropFirst()) // remove the $
@@ -53,9 +51,11 @@ class ViewController: UIViewController, UITextFieldDelegate {
       
       if !string.isEmpty {
         // adding a digit
-        let new:Double = Double(string)! * 0.01
-        let old:Double = Double(txtNumStr)! * 10
-        textField.text = self.convertNumberToDollarString(old + new)
+        if let _ = string.rangeOfString("[0-9]", options: .RegularExpressionSearch) {
+          let new:Double = Double(string)! * 0.01
+          let old:Double = Double(txtNumStr)! * 10
+          textField.text = self.convertNumberToDollarString(old + new)
+        }
         return false
         
       } else {
