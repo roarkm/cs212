@@ -176,13 +176,7 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
         
         // Print the object, for now, so we can take a look
         print(JSONDictionary)
-        
-        let movieDictionaries = JSONDictionary[TMDB.Keys.Results] as! [[String : AnyObject]]
-        
-        let movies = movieDictionaries.map() {
-            Movie(dictionary: $0)
-        }
-        
-        return movies
+        let movieDicts = JSONDictionary["results"] as! [[String : AnyObject]]
+        return  movieDicts.map() { Movie(dictionary: $0) }
     }
 }
