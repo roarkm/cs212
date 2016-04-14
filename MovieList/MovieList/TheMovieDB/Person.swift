@@ -18,7 +18,7 @@ struct Person {
     
     var name = ""
     var id = 0
-    var imagePath = ""
+    var imagePath: String? = nil
     var movies = [Movie]()
     
     init(dictionary: [String : AnyObject]) {
@@ -46,7 +46,7 @@ extension Person {
         }
         
         set {
-            TMDB.Caches.imageCache.storeImage(profileImage, withIdentifier: imagePath)
+            TMDB.Caches.imageCache.storeImage(profileImage, withIdentifier: imagePath!)
         }
     }
 }

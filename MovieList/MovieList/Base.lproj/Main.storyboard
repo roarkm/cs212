@@ -22,10 +22,10 @@
             </objects>
             <point key="canvasLocation" x="31" y="-630"/>
         </scene>
-        <!--Movies-->
+        <!--People-->
         <scene sceneID="MlD-r7-ki9">
             <objects>
-                <viewController automaticallyAdjustsScrollViewInsets="NO" id="vdR-SJ-F4k" customClass="MovieListViewController" customModule="MovieList" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController automaticallyAdjustsScrollViewInsets="NO" id="vdR-SJ-F4k" customClass="ActorListViewController" customModule="MovieList" customModuleProvider="target" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="Oyj-Su-2nX"/>
                         <viewControllerLayoutGuide type="bottom" id="LKn-1l-BdP"/>
@@ -80,10 +80,11 @@
                             <constraint firstAttribute="trailingMargin" secondItem="4tR-6X-Iw8" secondAttribute="trailing" constant="-20" id="w78-Ua-wNR"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" title="Movies" id="LHq-rn-JpT"/>
+                    <navigationItem key="navigationItem" title="People" id="LHq-rn-JpT"/>
                     <connections>
-                        <outlet property="activityIndicator" destination="CCm-fE-pOz" id="yJp-U0-AUB"/>
-                        <outlet property="tableView" destination="4tR-6X-Iw8" id="uUq-GP-bZx"/>
+                        <outlet property="activityIndicator" destination="CCm-fE-pOz" id="pdT-UT-ywI"/>
+                        <outlet property="searchBar" destination="w6n-2T-1RJ" id="er8-qx-t0O"/>
+                        <outlet property="tableView" destination="4tR-6X-Iw8" id="ruZ-xW-mPE"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Iiw-9f-cYj" userLabel="First Responder" sceneMemberID="firstResponder"/>
