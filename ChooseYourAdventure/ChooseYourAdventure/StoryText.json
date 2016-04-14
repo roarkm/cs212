@@ -1,0 +1,36 @@
+{
+  "1": {
+    "title": "A new Beginning",
+    "text": "This is some text describing what is happening at this point in time in the story.",
+    "question": "What is your name?",
+    "choices": { "Bob" : 2, "Alice" : 3 }
+  },
+
+  "2": {
+    "title": "Hello Bob",
+    "text": "Sorry, Bob. You died. Game over.",
+    "question": "",
+    "choices": {}
+  },
+
+  "3": {
+    "title": "A Cold Treat",
+    "text": "Some people like ice cream. Other people are monsters.",
+    "question": "Do you like ice cream, Alice?",
+    "choices": { "Yes" : 4, "No" : 5 }
+  },
+
+  "4": {
+    "title": "Mmm, Ice Cream",
+    "text": "Good Answer, you win.",
+    "question": "",
+    "choices": {}
+  },
+
+  "5": {
+    "title": "Boooo",
+    "text": "You lose",
+    "question": "",
+    "choices": {}
+  }
+}
