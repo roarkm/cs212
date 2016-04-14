@@ -15,6 +15,7 @@ struct Movie {
     }
     
     var title = ""
+    var desc = ""
     var id = 0
     var posterPath: String? = nil
     

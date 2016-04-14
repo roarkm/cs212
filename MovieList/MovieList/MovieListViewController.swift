@@ -102,7 +102,15 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
     }
     
     // MARK: - Table View
-    
+  
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+      let movie = movies[indexPath.row]
+//      print(movie)
+      let detailVC = MovieDetailViewController()
+      detailVC.movie = movie
+      self.navigationController?.pushViewController(detailVC, animated: true)
+    }
+  
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return movies.count
     }
@@ -116,33 +124,40 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
         
         print("Using Cell: \(cell.cellNumber)")
         
-        var movie = movies[indexPath.row]
+        let movie = movies[indexPath.row]
         
         cell.textLabel!.text = movie.title
         
         // Set the placeholder
-        
-        if movie.posterPath == nil {
-            // api node has no imagepath
-            cell.imageView!.image = UIImage(named: "noImage")
-        } else if let image = movie.posterImage {
-            // already cached
-            cell.imageView!.image = image
-            print("Image for \(movie.title) already cached")
-        } else {
-            // Set a placeholder before we start the download
-            cell.imageView!.image = UIImage(named: "placeHolder")
-        
-            // get url, 
-            let url = TMDBURLs.URLForPosterWithPath(movie.posterPath!)
+        cell.imageView!.image = UIImage(named: "placeHolder")
+        moviePosterForPosterPath(movie, completion: {
+          image in
+          dispatch_async(dispatch_get_main_queue()) {
+              cell.imageView!.image = image
+          }
+        })
+      
+        return cell
+    }
+  
+    func moviePosterForPosterPath(var movie: Movie, completion:(image: UIImage) -> Void) {
+      if movie.posterPath == nil {
+          // api node has no imagepath
+        completion(image: UIImage(named: "noImage")!)
+      } else if let image = movie.posterImage {
+          // already cached
+        completion(image: image)
+      } else {
+        // get url,
+        let url = TMDBURLs.URLForPosterWithPath(movie.posterPath!)
 
-            // create task
-            let task = NSURLSession.sharedSession().dataTaskWithURL(url) {
-                data, response, error in
+        // create task
+        let task = NSURLSession.sharedSession().dataTaskWithURL(url) {
+          data, response, error in
 
-                if let error = error {
-                    print(error)
-                }
+          if let error = error {
+              print(error)
+          }
 
                 if let data = data, image = UIImage(data: data) {
                     dispatch_async(dispatch_get_main_queue()) {
@@ -159,9 +174,11 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
             
         }
         
-        return cell
+        // resume task
+        task.resume()
+      }
     }
-    
+  
     // MARK: - Parser
     
     func moviesFromData(data: NSData) -> [Movie] {
@@ -175,7 +192,7 @@ class MovieListViewController: UIViewController, UITableViewDataSource, UITableV
         }
         
         // Print the object, for now, so we can take a look
-        print(JSONDictionary)
+//        print(JSONDictionary)
         let movieDicts = JSONDictionary["results"] as! [[String : AnyObject]]
         return  movieDicts.map() { Movie(dictionary: $0) }
     }
