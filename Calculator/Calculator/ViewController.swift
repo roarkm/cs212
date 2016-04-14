@@ -14,8 +14,7 @@ enum Operation {
 }
 
 class ViewController: UIViewController {
-  var arg1:Int?
-  var operation:Operation?
+  var model = CalculatorModel()
   
   @IBOutlet weak var displayField: UILabel!
   
@@ -30,43 +29,23 @@ class ViewController: UIViewController {
   }
 
   @IBAction func numberPressed(sender: AnyObject) {
-    if displayField.text == nil || displayField.text == "" {
-        displayField.text = "\(sender.tag!)"
-    } else if let i:Int = Int(displayField.text!) {
-      if (i == 0) {
-        displayField.text = "\(sender.tag!)"
-      } else {
-        displayField.text = "\(i)\(sender.tag!)"
-      }
-    }
+    let s = "\(sender.tag)"
+    displayField.text = model.processInput(s)
   }
 
   @IBAction func clearScreen(sender: AnyObject) {
-    displayField.text = "0"
-    operation = nil
+    displayField.text = model.clearState()
   }
   
   @IBAction func addOperator(sender: AnyObject) {
-    arg1 = Int(displayField.text!)
+    model.arg1 = Int(displayField.text!)
     displayField.text = ""
-    if sender.currentTitle == "+" {
-      operation = .addition
-    } else if sender.currentTitle == "-" {
-      operation = .subtraction
-    }
+    model.addOperator(sender.currentTitle!)
     
   }
   
   @IBAction func solve(sender: AnyObject) {
-    if (arg1 != nil), let arg2:Int = Int(displayField.text!) {
-      if operation == .addition {
-        displayField.text = "\(arg1! + arg2)"
-      } else {
-        displayField.text = "\(arg1! - arg2)"
-      }
-    }
-    arg1 = nil
-    operation = nil
+    displayField.text = model.solve(displayField.text!)
   }
   
 }
