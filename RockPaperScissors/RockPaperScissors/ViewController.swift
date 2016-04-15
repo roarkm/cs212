@@ -11,12 +11,15 @@ import UIKit
 class ViewController: UIViewController {
 
   var rpsGame:RPSGame?
+
   @IBOutlet weak var rockButton: UIButton!
   @IBOutlet weak var paperButton: UIButton!
   @IBOutlet weak var scissorButton: UIButton!
   
   override func viewDidLoad() {
     super.viewDidLoad()
+    let b = UIBarButtonItem(title: "Game History", style: UIBarButtonItemStyle.Plain, target: self, action: "showHistory")
+    self.navigationItem.rightBarButtonItem = b
     rpsGame = RPSGame()
   }
 
@@ -31,6 +34,8 @@ class ViewController: UIViewController {
       let evalPlayVC = storyboard.instantiateViewControllerWithIdentifier("evalPlay") as! EvalPlayViewController
       rpsGame!.userMove = .Rock
       evalPlayVC.rpsGame = rpsGame
+      let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+      appDelegate.matches.append(rpsGame!)
       self.presentViewController(evalPlayVC, animated: true, completion: { });
     } else if sender == paperButton {
       self.performSegueWithIdentifier("showEvalPlay", sender: sender)
@@ -48,9 +53,15 @@ class ViewController: UIViewController {
         rpsGame!.userMove = .Paper
       }
     }
+    let appDelegate = UIApplication.sharedApplication().delegate as! AppDelegate
+    appDelegate.matches.append(rpsGame!)
     let evPlayVC = segue.destinationViewController as! EvalPlayViewController
     evPlayVC.rpsGame = rpsGame
   }
   
+  func showHistory() {
+    let histVC = HistoryViewController()
+    self.navigationController?.pushViewController(histVC, animated: true)
+  }
+  
 }
-
